@@ -2,6 +2,8 @@
 
 namespace App\Domain\Service\ReadFile;
 
+use App\Domain\Exceptions\FileNotFoundException;
+
 /**
  * Class FilePath
  * @package App\Domain\Service\ReadFile
@@ -14,15 +16,19 @@ class FilePath
     public function __construct(string $path)
     {
         $this->fileValidation($path);
+
+        $this->path = $path;
     }
 
     /**
      * @param string $path
-     * @return bool
+     * @throws \Exception
      */
-    private function fileValidation(string $path): bool
+    private function fileValidation(string $path)
     {
-        return file_exists($path);
+        if (!file_exists($path)) {
+            throw new FileNotFoundException();
+        }
     }
 
     /**
