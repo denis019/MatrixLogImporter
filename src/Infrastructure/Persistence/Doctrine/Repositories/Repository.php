@@ -5,12 +5,12 @@ namespace App\Infrastructure\Persistence\Doctrine\Repositories;
 use App\Domain\Entities\MatrixLog;
 use App\Infrastructure\Persistence\Doctrine\Doctrine;
 
-class RepositoryFactory
+class Repository
 {
     /**
      * @return MatrixLogRepository
      */
-    public static function createMatrixLogRepository(): MatrixLogRepository
+    public static function getMatrixLogRepository(): MatrixLogRepository
     {
         $documentManager = Doctrine::createDocumentManager();
         return $documentManager->getRepository(MatrixLog::class);

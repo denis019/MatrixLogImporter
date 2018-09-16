@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Application\Env;
 use App\Domain\Entities\MatrixLog;
 use App\Infrastructure\Persistence\Doctrine\Doctrine;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +21,7 @@ abstract class BaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->dm = Doctrine::createDocumentManager('test');
+        $this->dm = Doctrine::createDocumentManager(Env::TEST);
     }
 
     public function tearDown()

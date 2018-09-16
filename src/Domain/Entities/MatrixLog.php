@@ -4,14 +4,15 @@ namespace App\Domain\Entities;
 
 use App\Domain\Service\ParseMatrixLogData\MatrixLogInterface;
 use DateTime;
+use MongoDate;
+use Tightenco\Collect\Contracts\Support\Arrayable;
 
 /**
  * Class MatrixLog
  * @package App\Domain\Entities
  */
-class MatrixLog implements MatrixLogInterface
+class MatrixLog implements MatrixLogInterface, Arrayable
 {
-    use OnPrePersistTrait;
 
     /** @var string */
     private $id;
@@ -25,7 +26,10 @@ class MatrixLog implements MatrixLogInterface
     /** @var string */
     private $serviceName;
 
-    /** @var DateTime */
+    /** @var string */
+    private $time;
+
+    /** @var DateTime|null */
     private $dateTime;
 
     /** @var string */
@@ -36,9 +40,6 @@ class MatrixLog implements MatrixLogInterface
 
     /** @var int */
     private $statusCode;
-
-    /** @var DateTime */
-    private $createdAt;
 
     /**
      * @return string
@@ -81,17 +82,26 @@ class MatrixLog implements MatrixLogInterface
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getDateTime(): DateTime
+    public function getDateTime(): ?DateTime
     {
         return $this->dateTime;
     }
 
     /**
-     * @param DateTime $dateTime
+     * @param DateTime|null $dateTime
+     * @return MongoDate|null
      */
-    public function setDateTime(DateTime $dateTime): void
+    public function dateTimeToMongoDateTime(?DateTime $dateTime): ?MongoDate
+    {
+        return is_null($dateTime) ? null : new MongoDate($dateTime->getTimestamp());
+    }
+
+    /**
+     * @param DateTime|null $dateTime
+     */
+    public function setDateTime(?DateTime $dateTime): void
     {
         $this->dateTime = $dateTime;
     }
@@ -145,10 +155,48 @@ class MatrixLog implements MatrixLogInterface
     }
 
     /**
-     * @return DateTime
+     * @return int
      */
-    public function getCreatedAt(): DateTime
+    public function getMigrationNo(): int
     {
-        return $this->createdAt;
+        return $this->migrationNo;
+    }
+
+    /**
+     * @param int $migrationNo
+     */
+    public function setMigrationNo(int $migrationNo): void
+    {
+        $this->migrationNo = $migrationNo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTime(): string
+    {
+        return $this->time;
+    }
+
+    /**
+     * @param string $time
+     */
+    public function setTime(string $time): void
+    {
+        $this->time = $time;
+    }
+
+    public function toArray()
+    {
+        return [
+            'lineNo' => $this->getLineNo(),
+            'migrationNo' => $this->getMigrationNo(),
+            'serviceName' => $this->getServiceName(),
+            'time' => $this->getTime(),
+            'dateTime' => $this->dateTimeToMongoDateTime($this->getDateTime()),
+            'method' => $this->getMethod(),
+            'url' => $this->getUrl(),
+            'statusCode' => $this->getStatusCode(),
+        ];
     }
 }

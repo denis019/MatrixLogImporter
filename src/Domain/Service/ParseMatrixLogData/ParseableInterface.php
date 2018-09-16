@@ -10,5 +10,7 @@ Interface ParseableInterface
 {
     public function parse(string $logLine): MatrixLogInterface;
 
+    public function parseArray(array $logLines, int $migration, int $lastLine): MatrixLogCollection;
+
     public function getFormat(): string;
 }

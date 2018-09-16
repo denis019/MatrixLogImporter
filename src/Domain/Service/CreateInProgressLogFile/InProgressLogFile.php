@@ -8,7 +8,7 @@ use App\Domain\Service\ReadFile\FilePath;
  * Class CreateInProgressLogFile
  * @package App\Domain\Service\CreateInProgressLogFile
  */
-class CreateInProgressLogFile
+class InProgressLogFile
 {
     const DEFAULT_DESTINATION_FILE_PATH = '/tmp/in-progress.log';
 
@@ -51,6 +51,14 @@ class CreateInProgressLogFile
         );
 
         shell_exec($command);
+    }
+
+    /**
+     * @return bool
+     */
+    public function delete(): bool
+    {
+        return unlink($this->destinationFilePath);
     }
 
     /**

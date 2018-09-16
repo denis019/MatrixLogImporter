@@ -24,7 +24,8 @@
     "kassner/log-parser": "^1.4",
     "alcaeus/mongo-php-adapter": "^1.1",
     "doctrine/mongodb-odm": "^1.2",
-    "symfony/console": "^4.1"
+    "symfony/console": "^4.1",
+    "tightenco/collect": "^5.7"
   },
   "authors": [
     {

@@ -3,9 +3,11 @@
 namespace App\Infrastructure\Parser;
 
 use App\Domain\Entities\MatrixLog;
+use App\Domain\Service\ParseMatrixLogData\MatrixLogCollection;
 use App\Domain\Service\ParseMatrixLogData\MatrixLogInterface;
 use App\Domain\Service\ParseMatrixLogData\ParseableInterface;
 use App\Infrastructure\Exceptions\InvalidLogLineFormatException;
+use Carbon\Carbon;
 use Exception;
 use Kassner\LogParser\LogParser;
 
@@ -39,6 +41,31 @@ class MatrixLogParser implements ParseableInterface
         return $this->createMatrixLogFromParsedData($parsedData);
     }
 
+    /**
+     * @param array $logLines
+     * @param int $migration
+     * @param int $lastLine
+     * @return MatrixLogCollection
+     * @throws InvalidLogLineFormatException
+     */
+    public function parseArray(array $logLines, int $migration, int $lastLine): MatrixLogCollection
+    {
+        $matrixLogCollection = new MatrixLogCollection();
+
+        foreach ($logLines as $logLine) {
+            $lastLine++;
+
+            /** @var MatrixLog $matrixLog */
+            $matrixLog = $this->parse($logLine);
+            $matrixLog->setLineNo($lastLine);
+            $matrixLog->setMigrationNo($migration);
+
+            $matrixLogCollection->push($matrixLog);
+        }
+
+        return $matrixLogCollection;
+    }
+
     public function getFormat(): string
     {
         return '%h - - %t "%m %U" %>s';
@@ -51,11 +78,16 @@ class MatrixLogParser implements ParseableInterface
     private function createMatrixLogFromParsedData(\stdClass $parsedData): MatrixLogInterface
     {
 
-        $dateTime = new \DateTime($parsedData->time);
+        try {
+            $dateTime = new \DateTime($parsedData->time);
+        } catch (Exception $exception) {
+            $dateTime = null;
+        }
 
         /** @var MatrixLog $matrixLog */
         $matrixLog = new MatrixLog();
         $matrixLog->setServiceName($parsedData->host);
+        $matrixLog->setTime($parsedData->time);
         $matrixLog->setDateTime($dateTime);
         $matrixLog->setMethod($parsedData->requestMethod);
         $matrixLog->setUrl($parsedData->URL);

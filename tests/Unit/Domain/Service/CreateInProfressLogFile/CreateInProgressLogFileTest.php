@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Domain\Service\CreateInProgressLogFile;
 
-use App\Domain\Service\CreateInProgressLogFile\CreateInProgressLogFile as DomainCreateInProgressLogFile;
+use App\Domain\Service\CreateInProgressLogFile\InProgressLogFile as DomainCreateInProgressLogFile;
 use App\Domain\Service\ReadFile\FilePath;
 use App\Domain\Service\ReadFile\FileReader;
 use Tests\BaseTest;

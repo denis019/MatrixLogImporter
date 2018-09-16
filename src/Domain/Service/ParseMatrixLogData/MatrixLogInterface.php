@@ -11,14 +11,19 @@ use DateTime;
 interface MatrixLogInterface
 {
     /**
+     * @return int
+     */
+    public function getLineNo(): int;
+
+    /**
      * @return string
      */
     public function getServiceName(): string;
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getDateTime(): DateTime;
+    public function getDateTime(): ?DateTime;
 
     /**
      * @return string
@@ -34,4 +39,14 @@ interface MatrixLogInterface
      * @return int
      */
     public function getStatusCode(): int;
+
+    /**
+     * @return int
+     */
+    public function getMigrationNo(): int;
+
+    /**
+     * @return string
+     */
+    public function getTime(): string;
 }

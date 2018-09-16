@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Persistence\Doctrine\Repositories;
 
 use App\Domain\Entities\MatrixLog;
+use Doctrine\ODM\MongoDB\Cursor;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
 /**
@@ -18,5 +19,23 @@ class MatrixLogRepository extends DocumentRepository
     {
         $this->dm->persist($matrixLog);
         $this->dm->flush();
+    }
+
+    /**
+     * @return MatrixLog|null
+     * @throws \Doctrine\ODM\MongoDB\MongoDBException
+     */
+    public function getLastLog(): ?MatrixLog
+    {
+        /** @var Cursor $cursor */
+        $cursor = $this->createQueryBuilder()
+            ->limit(1)
+            ->sort([
+                'lineNo' => 'desc'
+            ])
+            ->getQuery()
+            ->execute();
+
+        return $cursor->getSingleResult();
     }
 }
