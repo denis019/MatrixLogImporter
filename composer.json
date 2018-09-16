@@ -23,7 +23,8 @@
     "symfony/yaml": "^4.1",
     "kassner/log-parser": "^1.4",
     "alcaeus/mongo-php-adapter": "^1.1",
-    "doctrine/mongodb-odm": "^1.2"
+    "doctrine/mongodb-odm": "^1.2",
+    "symfony/console": "^4.1"
   },
   "authors": [
     {

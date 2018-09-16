@@ -19,6 +19,9 @@ class MatrixLog implements MatrixLogInterface
     /** @var int */
     private $lineNo;
 
+    /** @var int */
+    private $migrationNo;
+
     /** @var string */
     private $serviceName;
 

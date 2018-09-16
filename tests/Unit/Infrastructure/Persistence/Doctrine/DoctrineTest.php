@@ -15,11 +15,11 @@ class DoctrineTest extends BaseTest
 {
     /**
      * @test
-     * @covers ::make
+     * @covers ::createDocumentManager
      */
     public function doctrine_make_should_return_valid_document_manager()
     {
-        $doctrine = Doctrine::make();
+        $doctrine = Doctrine::createDocumentManager();
         $this->assertInstanceOf(DocumentManager::class, $doctrine);
     }
 
@@ -39,10 +39,8 @@ class DoctrineTest extends BaseTest
         $matrixLog->setUrl('/users HTTP/1.1');
         $matrixLog->setStatusCode(201);
 
-        $dm = Doctrine::make();
-
-        $dm->persist($matrixLog);
-        $dm->flush();
+        $this->dm->persist($matrixLog);
+        $this->dm->flush();
 
         $this->assertNotEmpty($matrixLog->getId());
     }

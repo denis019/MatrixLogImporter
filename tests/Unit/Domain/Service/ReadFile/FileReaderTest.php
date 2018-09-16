@@ -16,7 +16,7 @@ class FileReaderTest extends BaseTest
     /** @var string */
     protected $logTestFilePath;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
@@ -44,5 +44,22 @@ class FileReaderTest extends BaseTest
         $fileReader = new FileReader($filePath);
 
         $this->assertEquals(count($fileReader->read(0, 10)), 10);
+    }
+
+    /**
+     * @test
+     * @covers ::read
+     */
+    public function read_file_with_start_line_limit_should_start_reading_from_the_correct_line()
+    {
+        $filePath = new FilePath($this->logTestFilePath);
+        $fileReader = new FileReader($filePath);
+        $lines = $fileReader->read(2, 1);
+
+        $this->assertEquals(count($lines), 1);
+        $this->assertEquals(
+            'USER-SERVICE - - [17/Aug/2018:09:21:54 +0000] "POST /users HTTP/1.1" 400',
+            $lines[0]
+        );
     }
 }

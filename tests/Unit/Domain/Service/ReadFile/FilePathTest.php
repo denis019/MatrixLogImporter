@@ -15,7 +15,7 @@ class FilePathTest extends BaseTest
     /** @var string */
     protected $logTestFilePath;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 

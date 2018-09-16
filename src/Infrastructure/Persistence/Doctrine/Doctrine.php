@@ -7,9 +7,22 @@ use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\XmlDriver;
 
+/**
+ * Class Doctrine
+ * @package App\Infrastructure\Persistence\Doctrine
+ */
 class Doctrine
 {
-    public static function make()
+    const ENV_DB = [
+        'test' => 'test-matrix-log',
+        'prod' => 'matrix-log'
+    ];
+
+    /**
+     * @param string $env
+     * @return DocumentManager
+     */
+    public static function createDocumentManager(string $env = 'prod'): DocumentManager
     {
         $driver = new XmlDriver([
             __DIR__ . '/Mapping'
@@ -23,7 +36,7 @@ class Doctrine
         $config->setHydratorDir(__DIR__ . '/Hydrators');
         $config->setHydratorNamespace('Hydrators');
         $config->setMetadataDriverImpl($driver);
-        $config->setDefaultDB('matrix-log');
+        $config->setDefaultDB(self::ENV_DB[$env]);
 
         return DocumentManager::create($connection, $config);
     }

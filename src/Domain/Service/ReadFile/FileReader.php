@@ -54,7 +54,12 @@ class FileReader
             $lineNo++;
 
             if ($lineNo >= $startLine) {
-                yield trim(fgets($handle));
+                $line = trim(fgets($handle));
+                // skip empty line
+                if (!empty($line)) {
+                    yield $line;
+                }
+
             }
         }
 
@@ -76,8 +81,14 @@ class FileReader
             $lineNo++;
 
             if ($lineNo >= $startLine) {
-                yield trim(fgets($file));
+                $line = trim(fgets($file));
+                // skip empty line
+                if (!empty($line)) {
+                    yield $line;
+                }
                 $readLines++;
+            } else {
+                fgets($file);
             }
 
             if ($readLines >= $limit) {

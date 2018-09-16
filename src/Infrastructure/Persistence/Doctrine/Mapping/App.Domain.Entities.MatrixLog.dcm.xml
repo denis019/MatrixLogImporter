@@ -3,18 +3,22 @@
                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                         xsi:schemaLocation="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping
                 http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
-    <document name="App\Domain\Entities\MatrixLog" collection="log">
-        <field fieldName="id" id="true" />
-        <field fieldName="lineNo" type="int" />
-        <field fieldName="serviceName" type="string" />
-        <field fieldName="dateTime" type="date" />
-        <field fieldName="method" type="string" />
-        <field fieldName="url" type="string" />
-        <field fieldName="statusCode" type="string" />
-        <field fieldName="createdAt" type="date" />
+    <document
+            name="App\Domain\Entities\MatrixLog"
+            collection="log"
+            repository-class="App\Infrastructure\Persistence\Doctrine\Repositories\MatrixLogRepository"
+    >
+        <field fieldName="id" id="true"/>
+        <field fieldName="lineNo" type="int"/>
+        <field fieldName="serviceName" type="string"/>
+        <field fieldName="dateTime" type="date"/>
+        <field fieldName="method" type="string"/>
+        <field fieldName="url" type="string"/>
+        <field fieldName="statusCode" type="string"/>
+        <field fieldName="createdAt" type="date"/>
 
         <lifecycle-callbacks>
-            <lifecycle-callback type="prePersist" method="onPrePersist" />
+            <lifecycle-callback type="prePersist" method="onPrePersist"/>
         </lifecycle-callbacks>
     </document>
 </doctrine-mongo-mapping>
