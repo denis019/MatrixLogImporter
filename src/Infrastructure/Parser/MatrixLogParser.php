@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Parser;
 
-use App\Domain\Service\ParseMatrixLogData\MatrixLog;
+use App\Domain\Entities\MatrixLog;
 use App\Domain\Service\ParseMatrixLogData\MatrixLogInterface;
 use App\Domain\Service\ParseMatrixLogData\ParseableInterface;
 use App\Infrastructure\Exceptions\InvalidLogLineFormatException;
@@ -54,13 +54,12 @@ class MatrixLogParser implements ParseableInterface
         $dateTime = new \DateTime($parsedData->time);
 
         /** @var MatrixLog $matrixLog */
-        $matrixLog = new MatrixLog(
-            $parsedData->host,
-            $dateTime,
-            $parsedData->requestMethod,
-            $parsedData->URL,
-            $parsedData->status
-        );
+        $matrixLog = new MatrixLog();
+        $matrixLog->setServiceName($parsedData->host);
+        $matrixLog->setDateTime($dateTime);
+        $matrixLog->setMethod($parsedData->requestMethod);
+        $matrixLog->setUrl($parsedData->URL);
+        $matrixLog->setStatusCode($parsedData->status);
 
         return $matrixLog;
     }

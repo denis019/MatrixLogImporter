@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Infrastructure\Parser;
 
-use App\Domain\Service\ParseMatrixLogData\MatrixLog;
+use App\Domain\Entities\MatrixLog;
 use App\Infrastructure\Parser\MatrixLogParser;
 use Kassner\LogParser\LogParser;
 use Tests\BaseTest;

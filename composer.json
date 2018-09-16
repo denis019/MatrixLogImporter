@@ -20,12 +20,20 @@
   },
   "require": {
     "php" : "^7.1",
-    "kassner/log-parser": "^1.4"
+    "symfony/yaml": "^4.1",
+    "kassner/log-parser": "^1.4",
+    "alcaeus/mongo-php-adapter": "^1.1",
+    "doctrine/mongodb-odm": "^1.2"
   },
   "authors": [
     {
       "name": "Denis Kovacevic",
       "email": "kovacevic_denis@yahoo.com"
     }
-  ]
+  ],
+  "config": {
+    "platform": {
+      "ext-mongo": "1.6.16"
+    }
+  }
 }
