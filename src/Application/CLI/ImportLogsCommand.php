@@ -60,7 +60,7 @@ class ImportLogsCommand extends Command
 
             $output->writeln('<info>Imported ' . $imported += $matrixLogCollection->count() . '</info>');
             $output->writeln('<info>MemoryUsage ' . $this->formatBytes(memory_get_usage()) . '</info>');
-        } while ($matrixLogCollection > 0);
+        } while ($matrixLogCollection->count() > 0);
     }
 
     protected function batchImport(FilePath $sourceFilePath): MatrixLogCollection
